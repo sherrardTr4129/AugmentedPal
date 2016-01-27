@@ -3,7 +3,7 @@ import numpy as np
   
 class Effects(object):
     
-    def render(self, image, axisBot, axisTop, axisCol):
+    def render(self, image, axisBot, axisTop, axisCol, axisS1, axisS2, axisS3):
   
         # load calibration data
         with np.load('webcam_calibration_ouput.npz') as X:
@@ -28,11 +28,18 @@ class Effects(object):
             imgpts, _ = cv2.projectPoints(axisBot, rvecs, tvecs, mtx, dist)
             imgpts1, _ = cv2.projectPoints(axisTop, rvecs, tvecs, mtx, dist)
             imgpts2, _ = cv2.projectPoints(axisCol, rvecs, tvecs, mtx, dist)
+            imgpts3, _ = cv2.projectPoints(axisS1, rvecs, tvecs, mtx, dist)
+            imgpts4, _ = cv2.projectPoints(axisS2, rvecs, tvecs, mtx, dist)
+            imgpts5, _ = cv2.projectPoints(axisS3, rvecs, tvecs, mtx, dist)
+
   
             # draw cube
             self._draw_cube(image, imgpts)
             self._draw_cube(image, imgpts1)
             self._draw_cube(image, imgpts2)
+	    self._draw_cube(image, imgpts3)
+	    self._draw_cube(image, imgpts4)
+	    self._draw_cube(image, imgpts5)
 	    return image
         return image
     def _draw_cube(self, img, imgpts):
