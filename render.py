@@ -3,7 +3,7 @@ import numpy as np
   
 class Effects(object):
     
-    def render(self, image, axisBot, axisTop, axisCol, axisS1, axisS2, axisS3):
+    def render(self, image, axisBot, axisTop, axisCol, axisS1, axisS2, axisS3, axisS4, axisS5, axisH1, axisH2):
   
         # load calibration data
         with np.load('webcam_calibration_ouput.npz') as X:
@@ -31,6 +31,10 @@ class Effects(object):
             imgpts3, _ = cv2.projectPoints(axisS1, rvecs, tvecs, mtx, dist)
             imgpts4, _ = cv2.projectPoints(axisS2, rvecs, tvecs, mtx, dist)
             imgpts5, _ = cv2.projectPoints(axisS3, rvecs, tvecs, mtx, dist)
+            imgpts6, _ = cv2.projectPoints(axisS4, rvecs, tvecs, mtx, dist)
+            imgpts7, _ = cv2.projectPoints(axisS5, rvecs, tvecs, mtx, dist)
+            imgpts8, _ = cv2.projectPoints(axisH1, rvecs, tvecs, mtx, dist)
+            imgpts9, _ = cv2.projectPoints(axisH2, rvecs, tvecs, mtx, dist)
 
   
             # draw cube
@@ -40,19 +44,23 @@ class Effects(object):
 	    self._draw_cube(image, imgpts3)
 	    self._draw_cube(image, imgpts4)
 	    self._draw_cube(image, imgpts5)
+	    self._draw_cube(image, imgpts6)
+	    self._draw_cube(image, imgpts7)
+	    self._draw_cube(image, imgpts8)
+	    self._draw_cube(image, imgpts9)
 	    return image
         return image
     def _draw_cube(self, img, imgpts):
         imgpts = np.int32(imgpts).reshape(-1,2)
   
         # draw floor
-        cv2.drawContours(img, [imgpts[:4]],-1,(200,150,10),3)
+        cv2.drawContours(img, [imgpts[:4]],-1,(0,0,0),3)
   
         # draw pillars
         for i,j in zip(range(4),range(4,8)):
-            cv2.line(img, tuple(imgpts[i]), tuple(imgpts[j]),(255),3)
+            cv2.line(img, tuple(imgpts[i]), tuple(imgpts[j]),(0),3)
   
         # draw roof
-        cv2.drawContours(img, [imgpts[4:8]],-1,(200,150,10),3)
+        cv2.drawContours(img, [imgpts[4:8]],-1,(0,0,0),3)
 	return img
     
