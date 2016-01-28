@@ -3,7 +3,7 @@ import numpy as np
   
 class Effects(object):
     
-    def render(self, image, axisBot, axisTop, axisCol, axisS1, axisS2, axisS3, axisS4, axisS5, axisH1, axisH2):
+    def render(self, CSH, hammer, other ,image, axisBot, axisTop, axisCol, axisS1, axisS2, axisS3, axisS4, axisS5, axisH1, axisH2):
   
         # load calibration data
         with np.load('webcam_calibration_ouput.npz') as X:
@@ -21,35 +21,38 @@ class Effects(object):
 
   
         if ret == True:
-              
-            # project 3D points to image plane
             cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
             rvecs, tvecs, _ = cv2.solvePnPRansac(objp, corners, mtx, dist)
-            imgpts, _ = cv2.projectPoints(axisBot, rvecs, tvecs, mtx, dist)
-            imgpts1, _ = cv2.projectPoints(axisTop, rvecs, tvecs, mtx, dist)
-            imgpts2, _ = cv2.projectPoints(axisCol, rvecs, tvecs, mtx, dist)
-            imgpts3, _ = cv2.projectPoints(axisS1, rvecs, tvecs, mtx, dist)
-            imgpts4, _ = cv2.projectPoints(axisS2, rvecs, tvecs, mtx, dist)
-            imgpts5, _ = cv2.projectPoints(axisS3, rvecs, tvecs, mtx, dist)
-            imgpts6, _ = cv2.projectPoints(axisS4, rvecs, tvecs, mtx, dist)
-            imgpts7, _ = cv2.projectPoints(axisS5, rvecs, tvecs, mtx, dist)
-            imgpts8, _ = cv2.projectPoints(axisH1, rvecs, tvecs, mtx, dist)
-            imgpts9, _ = cv2.projectPoints(axisH2, rvecs, tvecs, mtx, dist)
+	    if CSH == True:
+                # project 3D points to image plane
+            	imgpts, _ = cv2.projectPoints(axisBot, rvecs, tvecs, mtx, dist)
+            	imgpts1, _ = cv2.projectPoints(axisTop, rvecs, tvecs, mtx, dist)
+            	imgpts2, _ = cv2.projectPoints(axisCol, rvecs, tvecs, mtx, dist)
+            	imgpts3, _ = cv2.projectPoints(axisS1, rvecs, tvecs, mtx, dist)
+            	imgpts4, _ = cv2.projectPoints(axisS2, rvecs, tvecs, mtx, dist)
+            	imgpts5, _ = cv2.projectPoints(axisS3, rvecs, tvecs, mtx, dist)
+            	imgpts6, _ = cv2.projectPoints(axisS4, rvecs, tvecs, mtx, dist)
+            	imgpts7, _ = cv2.projectPoints(axisS5, rvecs, tvecs, mtx, dist)
+            	imgpts8, _ = cv2.projectPoints(axisH1, rvecs, tvecs, mtx, dist)
+            	imgpts9, _ = cv2.projectPoints(axisH2, rvecs, tvecs, mtx, dist)
 
   
-            # draw cube
-            self._draw_cube(image, imgpts)
-            self._draw_cube(image, imgpts1)
-            self._draw_cube(image, imgpts2)
-	    self._draw_cube(image, imgpts3)
-	    self._draw_cube(image, imgpts4)
-	    self._draw_cube(image, imgpts5)
-	    self._draw_cube(image, imgpts6)
-	    self._draw_cube(image, imgpts7)
-	    self._draw_cube(image, imgpts8)
-	    self._draw_cube(image, imgpts9)
-	    return image
-        return image
+            	# draw cube
+            	self._draw_cube(image, imgpts)
+            	self._draw_cube(image, imgpts1)
+            	self._draw_cube(image, imgpts2)
+	    	self._draw_cube(image, imgpts3)
+	    	self._draw_cube(image, imgpts4)
+	    	self._draw_cube(image, imgpts5)
+	    	self._draw_cube(image, imgpts6)
+	    	self._draw_cube(image, imgpts7)
+	    	self._draw_cube(image, imgpts8)
+	    	self._draw_cube(image, imgpts9)
+	    	return image
+	    elif hammer == True:
+            	imgptsOther, _ = cv2.projectPoints(other, rvecs, tvecs, mtx, dist)
+            	self._draw_cube(image, imgptsOther)
+		return image
     def _draw_cube(self, img, imgpts):
         imgpts = np.int32(imgpts).reshape(-1,2)
   
