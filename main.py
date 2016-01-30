@@ -18,12 +18,11 @@ axisS5 = np.float32([[0,2,-3], [0,5,-3], [2,5,-3], [2,2,-3],[0,2,-4],[0,5,-4],[2
 axisH1 = np.float32([[0,6,-5], [0,7,-5], [2,7,-5], [2,6,-5],[0,6,-6],[0,7,-6],[2,7,-6],[2,6,-6]])
 axisH2 = np.float32([[0,7,0], [0,8,0], [2,8,0], [2,7,0],[0,7,-10],[0,8,-10],[2,8,-10],[2,7,-10]])
 
-
 axisOther = np.float32([[0,0,0], [0,6,0], [2,6,0], [2,0,0],[0,0,-1],[0,6,-1],[2,6,-1],[2,0,-1]])
 
 while True:
      ret, frame = cap.read()
-     face, Rsign = det.Detect("haarcascade_frontalface_default.xml","sign_language-R-Classifier.xml", frame)
+     #face, Rsign = det.Detect("haarcascade_frontalface_default.xml","sign_language-R-Classifier.xml", frame)
      ren.render(True, False, axisOther,frame , axisBase, axisTop, axisCol, axisS1, axisS2, axisS3, axisS4, axisS5, axisH1, axisH2)
      cv2.imshow("frame", frame)
      cv2.waitKey(1)
