@@ -23,6 +23,7 @@ axisOther = np.float32([[0, 0, 0], [0, 6, 0], [2, 6, 0], [2, 0, 0], [0, 0, -1], 
 while True:
     ret, frame = cap.read()
     #face, Rsign = det.Detect("haarcascade_frontalface_default.xml","sign_language-R-Classifier.xml", frame)
-    ren.render(True, False, axisOther, frame, axisBase, axisTop,axisCol, axisS1, axisS2, axisS3, axisS4, axisS5, axisH1, axisH2)
+    axisList = [axisBase, axisTop, axisCol, axisS1, axisS2, axisS3, axisS4, axisS5, axisH1, axisH2]
+    ren.render(True, False, axisOther, frame, axisList)
     cv2.imshow("frame", frame)
     cv2.waitKey(1)
